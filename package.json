@@ -1,7 +1,7 @@
 {
   "name": "note-taker",
   "version": "1.0.0",
-  "main": "./Develop/server.js",
+  "main": "server.js",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
