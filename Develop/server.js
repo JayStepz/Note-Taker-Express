@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const api = require('./public/assets/js/index.js');
+const { createNote, getNotes, deleteNote } = require('./public/assets/js/index.js');
 
 const PORT = process.env.PORT || 3001;
 
@@ -12,13 +13,17 @@ app.use('/api', api);
 
 app.use(express.static('public'));
 
-app.get('/public/index', (req, res) => 
+app.get('/api/index', (req, res) => 
     res.sendFile(path.join(__dirname, '/public/index.html'))
 );
 
-app.get('/public/notes', (req, res) =>
+app.get('/notes', (req, res) =>
     res.sendFile(path.join(__dirname, './public/notes.html'))
 );
+
+app.post('/notes', createNote);
+app.post('/notes', getNotes);
+app.delete('/notes:id', deleteNote);
 
 app.listen(PORT, () => 
     console.log(`App is listening at http://localhost:${PORT}.`)
