@@ -1,17 +1,17 @@
 const express = require('express');
 const path = require('path');
-const api = require('./public/assets/js/index');
-const { createNote, getNotes, deleteNote } = require('./public/assets/js/index');
+const api = require('./Develop/public/assets/js/index');
+const { createNote, getNotes, deleteNote } = require('./Develop/public/assets/js/index');
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use('/api', api);
 
-app.use(express.static('./public/index.html'));
+app.use(express.static('./public'));
 
 // GET route for start page
 app.get('/', (req, res) => 
