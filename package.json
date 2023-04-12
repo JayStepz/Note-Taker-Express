@@ -6,8 +6,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "uuid": "^8.3.2",
-    "node": "@8.2.4",
-    "fs": ""
+    "node": "^8.2.4"
   },
   "scripts": {
     "start": "node server.js"
