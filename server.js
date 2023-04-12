@@ -17,22 +17,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('./public'));
 
 const grabNotes = () => {
-    return readFile('./Develop/db/db.json', 'utf8')
+    return readFile('./db/db.json', 'utf8')
     .then((notes) => [].concat(JSON.parse(notes)))
 };
 
 // GET route for start page
 app.get('/', (req, res) => 
-    res.sendFile(path.join(__dirname, './Develop/public/index.html'))
+    res.sendFile(path.join(__dirname, './public/index.html'))
 );
 
 // GET route for notes page
 app.get('/notes', (req, res) =>
-    res.sendFile(path.join(__dirname, './Develop/public/notes.html'))
+    res.sendFile(path.join(__dirname, './public/notes.html'))
 );
 
 app.get('/api/notes', (req, res) => {
-    readFile('./Develop/db/db.json', 'utf8')
+    readFile('./db/db.json', 'utf8')
     .then(notes => res.json(notes))
     .catch(err => res.json(err))
 });
@@ -41,7 +41,7 @@ app.post('/api/notes', ({ body }, res) => {
     grabNotes().then(oldNotes => {
         const newNotes = [...oldNotes, {title: body.title, text: body.text, id: uuidv4()}]
         
-        writeFile('./Develop/db/db.json', JSON.stringify(newNotes))
+        writeFile('./db/db.json', JSON.stringify(newNotes))
         .then(() => res.json({message: 'Notes updated.'}))
         .catch(err => res.json(err))
     })
