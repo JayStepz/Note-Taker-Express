@@ -56,6 +56,7 @@ app.delete('/api/notes:id', (req, res) => {
     grabNotes()
         .then(notes => {
             const newNotes = notes.filter(notes => notes.id !== req.params.id);
+            
             writeFile('./db/db.json', JSON.stringify(newNotes))
             .then(() => res.json({message: "Note deleted."}))
             .catch(err => res.json(err))
