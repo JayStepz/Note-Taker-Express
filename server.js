@@ -38,7 +38,7 @@ app.get('/api/notes', (req, res) => {
 });
 
 app.post('/api/notes', ({ body }, res) => {
-    grabNotes().then(oldNotes => {
+    grabNotes().then(notes => {
         const newNotes = [...oldNotes, {title: body.title, text: body.text, id: uuidv4()}]
         
         writeFile('./db/db.json', JSON.stringify(newNotes))
