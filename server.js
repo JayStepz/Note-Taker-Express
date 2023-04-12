@@ -1,6 +1,9 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const util = require('util');
+const readFile = util.promisify(fs.readFile);
+const writeFile = util.promisify(fs.writeFile);
 const {v4:uuidv4} = require('uuid');
 
 
@@ -14,7 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('./public'));
 
 const grabNotes = () => {
-    return fs.readFile('./db/db.json', 'utf8', (err, data) => {})
+    return readFile('./Develop/db/db.json', 'utf8')
     .then((notes) => [].concat(JSON.parse(notes)))
 };
 
@@ -29,7 +32,7 @@ app.get('/notes', (req, res) =>
 );
 
 app.get('/note', (req, res) => {
-    fs.readFile('./Develop/db/db.json', 'utf8')
+    readFile('./Develop/db/db.json', 'utf8')
     .then(notes => res.json(notes))
     .catch(err => res.json(err))
 });
@@ -38,7 +41,7 @@ app.post('/api/notes', ({ body }, res) => {
     grabNotes().then(oldNotes => {
         const newNotes = [...oldNotes, {title: body.title, text: body.text, id: uuidv4()}]
         
-        fs.writeFile('./Develop/db/db.json', json.stringify(newNotes))
+        writeFile('./Develop/db/db.json', JSON.stringify(newNotes))
         .then(() => res.json({message: 'Notes updated.'}))
         .catch(err => res.json(err))
     })
