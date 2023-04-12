@@ -18,7 +18,11 @@ app.use(express.static('./public'));
 
 const grabNotes = () => {
     return readFile('./db/db.json', 'utf8')
-    .then((notes) => [].concat(JSON.parse(notes)))
+    .then((notes) => JSON.parse(notes))
+    .catch(err => {
+        console.log(err);
+        return [];
+    });
 };
 
 // GET route for start page
