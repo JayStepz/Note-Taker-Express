@@ -1,36 +1,50 @@
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
-const api = require('./public/assets/js/index.js');
-const { createNote, getNotes, deleteNote } = require('./public/assets/js/index.js');
+const {v4:uuidv4} = require('uuid');
+
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use('/api', api);
+app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static('./public'));
 
+const grabNotes = () => {
+    return fs.readFile('./db/db.json', 'utf8', (err, data) => {})
+    .then((notes) => [].concat(JSON.parse(notes)))
+};
+
 // GET route for start page
 app.get('/', (req, res) => 
-    res.sendFile(path.join(__dirname, './public/index.html'))
+    res.sendFile(path.join(__dirname, './Develop/public/index.html'))
 );
 
 // GET route for notes page
 app.get('/notes', (req, res) =>
-    res.sendFile(path.join(__dirname, './public/notes.html'))
+    res.sendFile(path.join(__dirname, './Develop/public/notes.html'))
 );
 
-// POST route for creating notes
-app.post('/notes', createNote);
+app.get('/note', (req, res) => {
+    fs.readFile('./Develop/db/db.json', 'utf8')
+    .then(notes => res.json(notes))
+    .catch(err => res.json(err))
+});
 
-// POST route for rendering notes
-app.post('/notes', getNotes);
+app.post('/api/notes', ({ body }, res) => {
+    grabNotes().then(oldNotes => {
+        const newNotes = [...oldNotes, {title: body.title, text: body.text, id: uuidv4()}]
+        console.log(newNotes);
+        fs.writeFile('./Develop/db/db.json', json.stringify(newNotes))
+        .then(() => res.json({message: 'Notes updated.'}))
+        .catch(err => res.json(err))
+    })
+});
 
-// POST route for deleting notes
-app.delete('/notes:id', deleteNote);
+// app.delete('/api/notes:id', deleteNote);
 
 app.listen(PORT, () => 
     console.log(`App is listening at http://localhost:${PORT}.`)
