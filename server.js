@@ -31,7 +31,7 @@ app.get('/notes', (req, res) =>
     res.sendFile(path.join(__dirname, './Develop/public/notes.html'))
 );
 
-app.get('/note', (req, res) => {
+app.get('/notes', (req, res) => {
     readFile('./Develop/db/db.json', 'utf8')
     .then(notes => res.json(notes))
     .catch(err => res.json(err))
