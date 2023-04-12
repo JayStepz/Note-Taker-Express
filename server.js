@@ -41,7 +41,7 @@ app.get('/api/notes', (req, res) => {
     .catch(err => res.json(err))
 });
 
-app.post('/api/notes', ({ body }, res) => {
+app.post('/api/notes', (req, res) => {
     grabNotes().then(oldNotes => {
         const newNotes = [...oldNotes, {title: body.title, text: body.text, id: uuidv4()}]
         
