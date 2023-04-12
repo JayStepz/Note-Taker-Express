@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('./public'));
 
 const grabNotes = () => {
-    return readFile('./db/db.json', 'utf8')
+    return readFile('./db/db.json', 'utf-8')
     .then((notes) => JSON.parse(notes))
     .catch(err => {
         console.log(err);
@@ -41,7 +41,7 @@ app.get('/api/notes', (req, res) => {
     .catch(err => res.json(err))
 });
 
-app.post('/api/notes', (req, res) => {
+app.post('/api/notes', ({ body }, res) => {
     grabNotes()
         .then(notes => {
             const newNotes = [...notes, {title: body.title, text: body.text, id: uuidv4()}]
