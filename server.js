@@ -36,7 +36,7 @@ app.get('/notes', (req, res) =>
 );
 
 app.get('/api/notes', (req, res) => {
-    readFile('./db/db.json', 'utf8')
+    grabNotes()
     .then(notes => res.json(notes))
     .catch(err => res.json(err))
 });
