@@ -42,7 +42,7 @@ app.post('/api/notes', ({ body }, res) => {
         const newNotes = [...oldNotes, {title: body.title, text: body.text, id: uuidv4()}]
         
         writeFile('./db/db.json', JSON.stringify(newNotes))
-        .then(() => res.json({message: 'Notes updated.'}))
+        .then(() => res.json(notes))
         .catch(err => res.json(err))
     })
 });
