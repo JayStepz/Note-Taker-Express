@@ -37,7 +37,7 @@ app.get('/note', (req, res) => {
 app.post('/api/notes', ({ body }, res) => {
     grabNotes().then(oldNotes => {
         const newNotes = [...oldNotes, {title: body.title, text: body.text, id: uuidv4()}]
-        console.log(newNotes);
+        
         fs.writeFile('./Develop/db/db.json', json.stringify(newNotes))
         .then(() => res.json({message: 'Notes updated.'}))
         .catch(err => res.json(err))
